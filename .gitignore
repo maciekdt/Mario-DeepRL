@@ -1,6 +1,4 @@
 /img
 .venv/
 .vscode/
-
-__pycache__/
-*.py[cod]
+**/__pycache__/
