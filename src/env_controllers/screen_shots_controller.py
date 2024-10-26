@@ -6,7 +6,7 @@ import subprocess
 import time
 import threading
 import json
-from env.img_primar_transformer import ImgPrimarTransformer
+from transformers.img_primar_transformer import ImgPrimarTransformer
 
 class ScreenShotsController:    
     _RUN_CMD = [
@@ -55,6 +55,7 @@ class ScreenShotsController:
                 self.sc_controller.grab(self.game_window_location)
             )
         )
+        print("captured frame " + str(self.frame_index))
         if save_file:
             screenshot_image = Image.fromarray(np_screenshot)
             screenshot_image = screenshot_image.convert('L')

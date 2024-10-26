@@ -15,6 +15,4 @@ class ImgPrimarTransformer:
         cropped_img = mono_img[top:-bottom, left:-right]
         normalized_img = cropped_img / 255.0
         
-        print(normalized_img)
-        print(normalized_img.shape)
         return normalized_img
