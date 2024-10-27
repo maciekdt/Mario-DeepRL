@@ -9,7 +9,7 @@ import json
 from transformers.img_primar_transformer import ImgPrimarTransformer
 
 class ScreenShotsController:    
-    _RUN_CMD = [
+    _run_cmd = [
         'C:/Program Files/AdoptOpenJDK/jdk-14.0.2.12-hotspot/bin/java.exe',
         '-XX:+ShowCodeDetailsInExceptionMessages',
         '-cp',
@@ -17,7 +17,7 @@ class ScreenShotsController:
         'PlayLevel'
     ]
     
-    def __init__(self):
+    def __init__(self, fps):
         self.game_window = None
         self.game_window_location = None
         self.game_process = None
@@ -29,10 +29,12 @@ class ScreenShotsController:
         self.last_ss = None
         self.current_ss = None
         
+        self._run_cmd.append(str(fps))
+        
     
     def start_game(self):
         self.game_process = subprocess.Popen(
-            self._RUN_CMD,
+            self._run_cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
@@ -72,10 +74,9 @@ class ScreenShotsController:
     def _end_game(self, game_output):
         self.game_process.terminate()
         self.is_process_running = False
-        self.game_process.wait()
-        print("Game ended")
-        print("Frames number " + str(self.frame_index))
-        return json.loads(game_output)
+        json_game_ouput = json.loads(game_output) 
+        print("Game ended ", str(json_game_ouput))
+        return json_game_ouput
         
     def _read_output(self):
         while self.game_process.poll() is None:
@@ -85,8 +86,8 @@ class ScreenShotsController:
 
     def _get_window_location(self, game_window):
         return {
-            "top": game_window.top + 40,
-            "left": game_window.left + 15,
-            "width": game_window.width + 100,
-            "height": game_window.height + 60
+            "top": game_window.top,
+            "left": game_window.left,
+            "width": game_window.width,
+            "height": game_window.height,
         }
